@@ -3,139 +3,458 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | Logo Designer</title>
+  <title>Portfolio | Logo Design</title>
   <style>
     body {
       margin: 0;
-      font-family: "Noto Sans JP", sans-serif;
+      font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       background: #ffffff;
-      color: #333;
+      color: #111111;
     }
+
     header {
-      padding: 80px 20px;
+      padding: 64px 20px 48px;
       text-align: center;
-      background: #f7f3fa;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,0,0,0.05), transparent 35%),
+        radial-gradient(circle at 80% 10%, rgba(0,0,0,0.04), transparent 40%),
+        #ffffff;
+      border-bottom: 1px solid #e5e5e5;
     }
-    h1 {
-      font-size: 2.4rem;
-      margin-bottom: 16px;
+
+    header h1 {
+      font-size: clamp(2.0rem, 3.6vw, 2.8rem);
+      margin: 0 0 10px;
+      letter-spacing: 0.02em;
     }
+
     section {
-      max-width: 960px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 80px 20px;
     }
+
     h2 {
-      font-size: 1.8rem;
-      margin-bottom: 32px;
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    /* Works grid: PCは3列、狭くなったら2列→1列 */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 900px) {
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .works-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: none;
+      border: 1px solid #eaeaea;
       text-align: center;
     }
-    .works {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-    }
-    .card {
-      border-radius: 16px;
-      background: #fafafa;
-      padding: 20px;
-    }
+
     .card img {
       width: 100%;
-      border-radius: 12px;
-      margin-bottom: 12px;
+      aspect-ratio: 16 / 9; /* 1920x1080対応 */
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      background: #ffffff;
     }
-    .price {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
+
+    /* シンボル・サムネのみ小さめ */
+    .symbol-small img {
+      width: 85%;
     }
-    ul {
-      padding-left: 20px;
+
+    .work-title {
+      font-weight: bold;
+      font-size: 0.95rem;
+      margin: 0;
     }
-    footer {
-      padding: 40px 20px;
+
+    .note {
       text-align: center;
-      background: #f7f3fa;
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 32px;
     }
-    a {
-      color: #8a6cff;
+
+    footer {
+      background: #ffffff;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    footer a {
+      margin: 0 10px;
       text-decoration: none;
+      color: #111111;
+      font-weight: bold;
     }
-  </style>
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+    }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .pill {
+      display: inline-block;
+      border: 1px solid #e5e5e5;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      color: #111;
+      background: #fff;
+    }
+    .subtitle {
+      margin: 10px 0 0;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    /* ★ アイコン付きタイトル */
+    .hero-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .hero-icon {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+  .hero-icon {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+    /* Flow */
+    .flow-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: start;
+      border: 1px solid #eaeaea;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid #e5e5e5;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: #111;
+      background: #fff;
+    }
+    .step-title {
+      font-weight: 700;
+      margin: 2px 0 2px;
+    }
+    .step-desc {
+      margin: 0;
+      color: #444;
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 780px) {
+      .flow-grid { grid-template-columns: 1fr; }
+    }
+
+    .info-card {
+      border: 1px solid #eaeaea;
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+    }
+    .info-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+    .info-card ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.8;
+      color: #222;
+    }
+    .flow-note {
+      margin-top: 14px;
+      color: #444;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+ 
+/* SNSアイコン：見た目サイズを強制的に統一（最終上書き用） */
+footer .sns-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+footer .sns-icons a {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+footer .sns-icons img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  display: block;
+}
+
+/* スマホ */
+@media (max-width: 600px) {
+  footer .sns-icons a {
+    width: 36px;
+    height: 36px;
+  }
+}
+<title>なな｜ロゴデザインポートフォリオ</title>
+<meta name="description" content="VTuber・配信者・アイドル向けロゴデザイン。ネームロゴ中心の制作実績を掲載。">
+ </style>
 </head>
 <body>
 
 <header>
-  <h1>かわいくて、記憶に残るロゴを。</h1>
-  <p>個人活動者・配信者向けのポップなロゴから、用途に合わせたシンプルなロゴまで制作しています。</p>
-  <p>ロゴデザイナー｜個人・企業対応可</p>
+  <div class="hero hero-row">
+    <!-- ★ここに icon.png を置けば表示される（index.htmlと同じフォルダ） -->
+    <img src="icon.png" alt="アイコン" class="hero-icon" />
+    <div>
+      <span class="pill">Logo Designer</span>
+      <h1>なな/Design</h1>
+      <p class="subtitle">VTuber・配信者・アイドル向け ロゴデザイン</p>
+    </div>
+  </div>
 </header>
 
 <section>
-  <h2>Works</h2>
-  <div class="works">
-    <div class="card">
-      <img src="work1.png" alt="logo work" />
-      <p><strong>作品名（実案件）</strong></p>
-      <p>用途：配信・SNS</p>
-      <p>かわいさと視認性のバランスを意識して制作。</p>
+  <h2>制作実績</h2>
+
+  <details open>
+    <summary>ネームロゴ（15点）</summary>
+    <div class="works-grid">
+      <div class="card"><img src="name01.png" alt=""><p class="work-title">ミル・クラウン</p></div>
+      <div class="card"><img src="name02.png" alt=""><p class="work-title">こめっとちゃ</p></div>
+      <div class="card"><img src="name03.png" alt=""><p class="work-title">Sugart labo</p></div>
+      <div class="card"><img src="name04.png" alt=""><p class="work-title">ToxicPinkParade</p></div>
+      <div class="card"><img src="name05.png" alt=""><p class="work-title">おとぎの国のドールたち</p></div>
+      <div class="card"><img src="name06.png" alt=""><p class="work-title">甘井ふわる</p></div>
+      <div class="card"><img src="name07.png" alt=""><p class="work-title">猫トねむる</p></div>
+      <div class="card"><img src="name08.png" alt=""><p class="work-title">ばちゃすぺ！</p></div>
+      <div class="card"><img src="name09.png" alt=""><p class="work-title">フラスタロゴ</p></div>
+      <div class="card"><img src="name10.png" alt=""><p class="work-title">にじミュスト</p></div>
+      <div class="card"><img src="name11.png" alt=""><p class="work-title">ウォーターマーク</p></div>
+      <div class="card"><img src="name12.png" alt=""><p class="work-title">運命らいせ</p></div>
+      <div class="card"><img src="name13.png" alt=""><p class="work-title">茶夜きんご</p></div>
+      <div class="card"><img src="name14.png" alt=""><p class="work-title">ひめみや</p></div>
+      <div class="card"><img src="name15.png" alt=""><p class="work-title">夜霞狼</p></div>
     </div>
-    <div class="card">
-      <img src="work2.png" alt="fan art" />
-      <p><strong>作品名（ファンアート）</strong></p>
-      <p>※非公式・自主制作</p>
-    </div>
+  </details>
+
+  <h3 style="margin-top:64px;">シンボルロゴ・サムネイル</h3>
+  <div class="works-grid">
+    <div class="card symbol-small"><img src="symbol01.png" alt=""><p class="work-title">mil.crown</p></div>
+    <div class="card symbol-small"><img src="thumb01.png" alt=""><p class="work-title">初配信 サムネイル</p></div>
   </div>
 </section>
 
 <section>
-  <h2>Price</h2>
-  <div class="price">
-    <div class="card">
-      <p><strong>ネームロゴ</strong></p>
-      <p>5,000円〜</p>
-    </div>
-    <div class="card">
-      <p><strong>シンボルロゴ</strong></p>
-      <p>8,000円〜</p>
-    </div>
-    <div class="card">
-      <p><strong>商用利用</strong></p>
-      <p>基本料金に含む</p>
-    </div>
+  <h2>ファンアート</h2>
+  <p class="note">※以下は個人制作のファンアート作品です（非公式）</p>
+  <div class="works-grid">
+    <div class="card"><img src="fanart01.png" alt=""><p class="work-title">川本笑留</p></div>
+    <div class="card"><img src="fanart02.png" alt=""><p class="work-title">ラブトレ</p></div>
+    <div class="card"><img src="fanart03.png" alt=""><p class="work-title">彩音ゆの</p></div>
+    <div class="card"><img src="fanart04.png" alt=""><p class="work-title">水瀬いのり</p></div>
+    <div class="card"><img src="fanart05.png" alt=""><p class="work-title">朝みこNEWS</p></div>
   </div>
 </section>
 
 <section>
-  <h2>Flow</h2>
-  <ul>
-    <li>お問い合わせ</li>
-    <li>ヒアリング</li>
-    <li>ラフ提出</li>
-    <li>修正</li>
-    <li>納品</li>
-  </ul>
-</section>
+  <h2>ご依頼の流れ</h2>
 
-<section>
-  <h2>About</h2>
-  <p>
-    ポップでかわいい雰囲気のロゴを得意とするロゴデザイナー。<br />
-    個人活動者・企業向けに対応しています。
-  </p>
-</section>
+  <div class="flow-wrap">
+    <ul class="steps">
+      <li class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">お問い合わせ</div>
+          <p class="step-desc">DM / メールでご連絡ください。</p>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">内容確認・お見積り</div>
+          <p class="step-desc">下の項目を送っていただけるとスムーズです（コピペOK）。</p>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">制作</div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">ラフ提出</div>
+          <p class="step-desc">このタイミングで入金をお願いしております。</p>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">修正</div>
+          <p class="step-desc">ご要望に合わせて調整します。</p>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">6</div>
+        <div>
+          <div class="step-title">納品</div>
+          <p class="step-desc">完成データをお渡しします。</p>
+        </div>
+      </li>
+    </ul> <!-- ★ ここが抜けていたので追加 -->
 
-<section>
-  <h2>Contact</h2>
-  <p>
-    <a href="#">X</a> / <a href="#">Instagram</a>
-  </p>
-</section>
+    <div class="flow-grid">
+      <div class="info-card">
+        <h3>① デザインについて</h3>
+        <ul>
+          <li>表記するお名前</li>
+          <li>読み方</li>
+          <li>アルファベット表記（ある場合）</li>
+          <li>希望する雰囲気</li>
+          <li>カラーのご希望</li>
+          <li>モチーフ</li>
+          <li>ご希望のデータ形式（透過PNG / AI など）</li>
+          <li>立ち絵など参考画像</li>
+        </ul>
+      </div>
 
+      <div class="info-card">
+        <h3>② お見積りについて</h3>
+        <ul>
+          <li>ご希望予算</li>
+          <li>ご希望納期</li>
+          <li>商用利用の有無</li>
+          <li>お支払方法（銀行振り込み / PayPay）</li>
+          <li>その他支払方法の希望（あれば）</li>
+          <li>実績公開の可否</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="flow-note">内容がまだ固まっていない場合でも大丈夫です。わかる範囲でご連絡ください。</p>
+  </div>
+</section>
 <footer>
-  <p>© Portfolio</p>
+  <p>Contact</p>
+<p style="font-size:0.9rem;color:#555;">ご依頼はXのDMまたはメールからお願いいたします。</p>
+  <div class="sns-icons">
+    <a href="https://x.com/folktaIe_" target="_blank" rel="noopener">
+      <img src="x.png" alt="X">
+    </a>
+    <a href="mailto:nana077design@gmail.com">
+      <img src="mail.png" alt="Mail">
+    </a>
+  </div>
 </footer>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img" src="" alt="拡大表示">
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.card img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightbox.style.display = 'flex';
+    });
+  });
+
+  lightbox.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+    lightboxImg.src = '';
+  });
+</script>
 
 </body>
 </html>
