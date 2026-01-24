@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | Logo Design</title>
+
+  <!-- ★ここは style の外に置く -->
+  <title>なな｜ロゴデザインポートフォリオ</title>
+  <meta name="description" content="VTuber・配信者・アイドル向けロゴデザイン。ネームロゴ中心の制作実績を掲載。">
+
   <style>
     body {
       margin: 0;
@@ -108,13 +112,6 @@
       border-top: 1px solid #e5e5e5;
     }
 
-    footer a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #111111;
-      font-weight: bold;
-    }
-
     /* Lightbox */
     .lightbox {
       position: fixed;
@@ -170,11 +167,11 @@
       flex: 0 0 auto;
     }
     @media (max-width: 600px) {
-  .hero-icon {
-    width: 64px;
-    height: 64px;
-  }
-}
+      .hero-icon {
+        width: 64px;
+        height: 64px;
+      }
+    }
 
     /* Flow */
     .flow-wrap {
@@ -251,46 +248,115 @@
       font-size: 0.95rem;
       text-align: center;
     }
- 
-/* SNSアイコン：見た目サイズを強制的に統一（最終上書き用） */
-footer .sns-icons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 16px;
-}
 
-footer .sns-icons a {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-}
+    /* SNSアイコン：見た目サイズを強制的に統一（最終上書き用） */
+    footer .sns-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 16px;
+    }
+    footer .sns-icons a {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+    footer .sns-icons img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      footer .sns-icons a {
+        width: 36px;
+        height: 36px;
+      }
+    }
 
-footer .sns-icons img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
-  display: block;
-}
+    /* =========================
+       目次（TOC）＋下線アニメ
+       ========================= */
+    html { scroll-behavior: smooth; }
 
-/* スマホ */
-@media (max-width: 600px) {
-  footer .sns-icons a {
-    width: 36px;
-    height: 36px;
-  }
-}
-<title>なな｜ロゴデザインポートフォリオ</title>
-<meta name="description" content="VTuber・配信者・アイドル向けロゴデザイン。ネームロゴ中心の制作実績を掲載。">
- </style>
+    .toc {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(229,229,229,0.9);
+    }
+
+    .toc-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .toc-link {
+      position: relative;
+      text-decoration: none;
+      color: #111;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      line-height: 1;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+
+    .toc-link:hover {
+      transform: translateY(-1px);
+      background: #f7f7f7;
+    }
+
+    .toc-link::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 6px;
+      height: 2px;
+      background: #111;
+      border-radius: 999px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .22s ease;
+      opacity: 0.9;
+    }
+
+    .toc-link:hover::after {
+      transform: scaleX(0.35);
+    }
+
+    .toc-link.is-active::after {
+      transform: scaleX(1);
+    }
+
+    .toc-link.is-active {
+      border-color: #cfcfcf;
+    }
+
+    /* 目次固定分、ジャンプ先が隠れないように */
+    #sec-name, #sec-symbol, #sec-fanart, #sec-flow {
+      scroll-margin-top: 90px;
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <div class="hero hero-row">
-    <!-- ★ここに icon.png を置けば表示される（index.htmlと同じフォルダ） -->
     <img src="icon.png" alt="アイコン" class="hero-icon" />
     <div>
       <span class="pill">Logo Designer</span>
@@ -300,10 +366,21 @@ footer .sns-icons img {
   </div>
 </header>
 
+<!-- ★目次（ヘッダー直下） -->
+<nav class="toc" aria-label="目次">
+  <div class="toc-inner">
+    <a class="toc-link" href="#sec-name" data-target="sec-name">ネームロゴ</a>
+    <a class="toc-link" href="#sec-symbol" data-target="sec-symbol">シンボル・サムネ</a>
+    <a class="toc-link" href="#sec-fanart" data-target="sec-fanart">ファンアート</a>
+    <a class="toc-link" href="#sec-flow" data-target="sec-flow">ご依頼</a>
+  </div>
+</nav>
+
 <section>
   <h2>制作実績</h2>
 
-  <details open>
+  <!-- ★ここにid -->
+  <details id="sec-name" open>
     <summary>ネームロゴ（15点）</summary>
     <div class="works-grid">
       <div class="card"><img src="name01.png" alt=""><p class="work-title">ミル・クラウン</p></div>
@@ -324,14 +401,16 @@ footer .sns-icons img {
     </div>
   </details>
 
-  <h3 style="margin-top:64px;">シンボルロゴ・サムネイル</h3>
+  <!-- ★ここにid（目次のジャンプ先） -->
+  <h3 id="sec-symbol" style="margin-top:64px;">シンボルロゴ・サムネイル</h3>
   <div class="works-grid">
     <div class="card symbol-small"><img src="symbol01.png" alt=""><p class="work-title">mil.crown</p></div>
     <div class="card symbol-small"><img src="thumb01.png" alt=""><p class="work-title">初配信 サムネイル</p></div>
   </div>
 </section>
 
-<section>
+<!-- ★ファンアートsectionにid -->
+<section id="sec-fanart">
   <h2>ファンアート</h2>
   <p class="note">※以下は個人制作のファンアート作品です（非公式）</p>
   <div class="works-grid">
@@ -343,7 +422,8 @@ footer .sns-icons img {
   </div>
 </section>
 
-<section>
+<!-- ★ご依頼sectionにid -->
+<section id="sec-flow">
   <h2>ご依頼の流れ</h2>
 
   <div class="flow-wrap">
@@ -389,7 +469,7 @@ footer .sns-icons img {
           <p class="step-desc">完成データをお渡しします。</p>
         </div>
       </li>
-    </ul> <!-- ★ ここが抜けていたので追加 -->
+    </ul>
 
     <div class="flow-grid">
       <div class="info-card">
@@ -422,9 +502,11 @@ footer .sns-icons img {
     <p class="flow-note">内容がまだ固まっていない場合でも大丈夫です。わかる範囲でご連絡ください。</p>
   </div>
 </section>
+
 <footer>
   <p>Contact</p>
-<p style="font-size:0.9rem;color:#555;">ご依頼はXのDMまたはメールからお願いいたします。</p>
+  <p style="font-size:0.9rem;color:#555;">ご依頼はXのDMまたはメールからお願いいたします。</p>
+
   <div class="sns-icons">
     <a href="https://x.com/folktaIe_" target="_blank" rel="noopener">
       <img src="x.png" alt="X">
@@ -440,6 +522,7 @@ footer .sns-icons img {
 </div>
 
 <script>
+  // Lightbox
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
 
@@ -454,6 +537,35 @@ footer .sns-icons img {
     lightbox.style.display = 'none';
     lightboxImg.src = '';
   });
+
+  // 目次：現在地ハイライト + ネームロゴへ飛んだら開く
+  const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+  const sections = ['sec-name', 'sec-symbol', 'sec-fanart', 'sec-flow']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  tocLinks.forEach(a => {
+    a.addEventListener('click', () => {
+      const targetId = a.dataset.target;
+      if (targetId === 'sec-name') {
+        const d = document.getElementById('sec-name');
+        if (d && d.tagName.toLowerCase() === 'details') d.open = true;
+      }
+    });
+  });
+
+  const setActive = (id) => {
+    tocLinks.forEach(a => a.classList.toggle('is-active', a.dataset.target === id));
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries.filter(e => e.isIntersecting)
+      .sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (visible) setActive(visible.target.id);
+  }, { threshold: 0.2 });
+
+  sections.forEach(sec => observer.observe(sec));
+  setActive('sec-name');
 </script>
 
 </body>
